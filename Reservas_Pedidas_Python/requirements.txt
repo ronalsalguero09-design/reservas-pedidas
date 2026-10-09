@@ -1,0 +1,3 @@
+# Dependencias para el Sistema Web de Reservas de Pedidas de Mano
+Flask>=2.3.0
+gunicorn>=21.2.0

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidas de Mano Exclusivas | Reserva tu Fecha Soñada 💍</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <span class="brand-icon">💍</span>
+                <div class="brand-text">
+                    <span class="brand-title">Amor Eterno</span>
+                    <span class="brand-subtitle">Pedidas de Mano & Momentos Mágicos</span>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <a href="#experiencias" class="nav-link">Experiencias</a>
+                <a href="#calendario-seccion" class="nav-link">Disponibilidad</a>
+                <a href="#como-funciona" class="nav-link">¿Cómo Funciona?</a>
+                <a href="/admin" class="btn-admin-nav" title="Panel de Administrador">
+                    <i class="fa-solid fa-lock"></i> <span>Admin</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fa-solid fa-sparkles"></i> Momentos Únicos en Pareja
+            </div>
+            <h1 class="hero-title">
+                El <span class="highlight-text">"Sí, Acepto"</span> que recordarán toda la vida
+            </h1>
+            <p class="hero-description">
+                Coordinamos escenarios mágicos, íntimos y de lujo para que tu pedida de mano sea perfecta.
+                Consulta nuestro calendario en tiempo real y aparta tu fecha soñada antes de que alguien más la tome.
+            </p>
+            <div class="hero-actions">
+                <a href="#calendario-seccion" class="btn-primary">
+                    <i class="fa-regular fa-calendar-check"></i> Ver Fechas Disponibles
+                </a>
+                <a href="https://wa.me/?text=Hola%2C%20quiero%20información%20sobre%20las%20pedidas%20de%20mano" target="_blank" class="btn-secondary">
+                    <i class="fa-brands fa-whatsapp"></i> Hablar con un Asesor
+                </a>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-pill">
+                    <i class="fa-solid fa-award"></i> <span>100% Exclusivo (1 evento por turno)</span>
+                </div>
+                <div class="feature-pill">
+                    <i class="fa-solid fa-heart"></i> <span>Ambientación Romántica de Ensueño</span>
+                </div>
+                <div class="feature-pill">
+                    <i class="fa-solid fa-user-shield"></i> <span>Asesoría y Confidencialidad Secreta</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCIAS / PAQUETES -->
+    <section id="experiencias" class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Colección de Experiencias</span>
+            <h2 class="section-title">Elige el Estilo de tu Pedida de Mano</h2>
+            <p class="section-subtitle">Cada historia de amor es única. Tenemos la atmósfera perfecta para sorprender a tu persona favorita.</p>
+        </div>
+
+        <div class="cards-grid" id="paquetesGrid">
+            <!-- Cargado dinámicamente con JS -->
+        </div>
+    </section>
+
+    <!-- CALENDARIO DE DISPONIBILIDAD -->
+    <section id="calendario-seccion" class="section-container calendar-wrapper">
+        <div class="section-header">
+            <span class="section-tag">Disponibilidad en Vivo</span>
+            <h2 class="section-title">Calendario de Fechas</h2>
+            <p class="section-subtitle">Selecciona cualquier día <strong>Disponible</strong> para iniciar tu reserva inmediata.</p>
+        </div>
+
+        <!-- CALENDAR CARD -->
+        <div class="calendar-card">
+            <!-- Barra de navegación del mes -->
+            <div class="calendar-nav-bar">
+                <button id="btnMesAnterior" class="btn-cal-nav" title="Mes Anterior">
+                    <i class="fa-solid fa-chevron-left"></i> Mes anterior
+                </button>
+                <div class="calendar-current-month">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <h3 id="tituloMesAnio">Cargando fecha...</h3>
+                </div>
+                <button id="btnMesSiguiente" class="btn-cal-nav" title="Mes Siguiente">
+                    Mes siguiente <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Leyenda de colores -->
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-dot dot-disponible"></span>
+                    <span>Disponible (Haz clic para reservar)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-reservado"></span>
+                    <span>Reservado (Ocupado)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-hoy"></span>
+                    <span>Hoy</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-pasado"></span>
+                    <span>No disponible (Pasado)</span>
+                </div>
+            </div>
+
+            <!-- Días de la semana -->
+            <div class="calendar-weekdays">
+                <span>Lun</span>
+                <span>Mar</span>
+                <span>Mié</span>
+                <span>Jue</span>
+                <span>Vie</span>
+                <span>Sáb</span>
+                <span>Dom</span>
+            </div>
+
+            <!-- Matriz de días -->
+            <div id="gridDias" class="calendar-grid">
+                <!-- Se llena dinámicamente con JS -->
+            </div>
+
+            <div class="calendar-footer-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>¿Buscas una fecha especial o de última hora? Contáctanos directamente para turnos adicionales.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section id="como-funciona" class="section-container steps-section">
+        <div class="section-header">
+            <span class="section-tag">Proceso Sencillo</span>
+            <h2 class="section-title">¿Cómo Funciona tu Reserva?</h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">📅</div>
+                <h4>Elige tu Fecha</h4>
+                <p>Navega en el calendario y selecciona el día especial para tu propuesta.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">💍</div>
+                <h4>Selecciona el Estilo</h4>
+                <p>Elige entre cena íntima, letras gigantes, picnic bohemio o terraza privada.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">🤫</div>
+                <h4>Coordinación Secreta</h4>
+                <p>Te contactamos por WhatsApp para afinar los detalles sorpresa, cómplices y música.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <div class="step-icon">✨</div>
+                <h4>El Gran Momento</h4>
+                <p>Llegas con tu pareja, todo estará impecable y listo para recibir el gran "¡SÍ!".</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE RESERVA -->
+    <div id="modalReserva" class="modal-overlay">
+        <div class="modal-card">
+            <button id="btnCerrarModal" class="modal-close" title="Cerrar">&times;</button>
+            
+            <div class="modal-header">
+                <div class="modal-badge-ring">💍</div>
+                <h3>Reserva de Pedida de Mano</h3>
+                <p>Asegura la exclusividad de tu fecha seleccionada</p>
+            </div>
+
+            <div class="modal-date-banner">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Fecha seleccionada: </span>
+                <strong id="modalFechaTexto">AAAA-MM-DD</strong>
+            </div>
+
+            <form id="formReserva" class="modal-form">
+                <input type="hidden" id="inputFecha" name="fecha">
+
+                <div class="form-group">
+                    <label for="inputNombre">
+                        <i class="fa-solid fa-users"></i> Nombre de la Pareja / Novios *
+                    </label>
+                    <input type="text" id="inputNombre" name="nombre" placeholder="Ej: Carlos & Sofía" required>
+                    <span class="form-hint">Escribe los nombres de ambos o el nombre de quien organiza.</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputTelefono">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp / Teléfono *
+                        </label>
+                        <input type="tel" id="inputTelefono" name="telefono" placeholder="Ej: +591 70000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectHora">
+                            <i class="fa-regular fa-clock"></i> Horario Deseado *
+                        </label>
+                        <select id="selectHora" name="hora" required>
+                            <option value="">Selecciona un horario...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="selectTipo">
+                        <i class="fa-solid fa-champagne-glasses"></i> Estilo / Paquete de Pedida *
+                    </label>
+                    <select id="selectTipo" name="tipo" required>
+                        <!-- Opciones cargadas por JS -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputObservaciones">
+                        <i class="fa-regular fa-comment-dots"></i> Observaciones o Peticiones Especiales
+                    </label>
+                    <textarea id="inputObservaciones" name="observaciones" rows="3" placeholder="¿Canción favorita, alergias, cómplices secretos, fotógrafo, o algún detalle en mente?"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="btnCancelarModal" class="btn-cancel">Cancelar</button>
+                    <button type="submit" id="btnConfirmarReserva" class="btn-submit">
+                        <i class="fa-solid fa-heart"></i> Confirmar y Apartar Fecha
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE ÉXITO CON WHATSAPP -->
+    <div id="modalExito" class="modal-overlay">
+        <div class="modal-card modal-card-success">
+            <div class="success-icon-animation">💍✨</div>
+            <h3 class="success-title">¡Reserva Registrada con Éxito!</h3>
+            <p class="success-subtitle">Tu fecha ha sido apartada inmediatamente en nuestro sistema.</p>
+
+            <div class="resumen-box" id="resumenExito">
+                <!-- Se llena con JS -->
+            </div>
+
+            <div class="success-actions">
+                <a id="btnEnviarWhatsappExito" href="#" target="_blank" class="btn-whatsapp-success">
+                    <i class="fa-brands fa-whatsapp"></i> Notificar y Coordinar por WhatsApp
+                </a>
+                <button id="btnCerrarExito" class="btn-secondary-full">
+                    Aceptar y Volver al Inicio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/?text=Hola%2C%20quisiera%20consultar%20sobre%20una%20reserva%20para%20pedida%20de%20mano" target="_blank" class="floating-whatsapp" title="Escríbenos por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h4>💍 AMOR ETERNO</h4>
+                <p>Especialistas en crear momentos inolvidables de pedidas de mano, cenas románticas y propuestas de novios.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#experiencias">Experiencias</a>
+                <a href="#calendario-seccion">Calendario</a>
+                <a href="/admin">Panel de Administrador</a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2026 Amor Eterno. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App JS -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

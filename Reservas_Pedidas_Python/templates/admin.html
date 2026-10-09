@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Reservas de Pedidas de Mano</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+
+    <!-- NAVBAR ADMIN -->
+    <header class="admin-navbar">
+        <div class="admin-nav-container">
+            <div class="admin-brand">
+                <span class="admin-logo-icon">🔐</span>
+                <div>
+                    <h2>Panel de Control</h2>
+                    <span>Gestión de Fechas y Pedidas de Mano</span>
+                </div>
+            </div>
+            <div class="admin-nav-actions">
+                <a href="/" class="btn-outline-back" title="Ver la web pública">
+                    <i class="fa-solid fa-arrow-left"></i> Ver Sitio Web
+                </a>
+                <button id="btnLogout" class="btn-logout" style="display: none;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Salir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- PANTALLA DE LOGIN (Visible si no está autenticado) -->
+    <div id="pantallaLogin" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-icon">💍</div>
+            <h3>Acceso Administrativo</h3>
+            <p>Ingresa la contraseña para gestionar las fechas y reservas de novios.</p>
+
+            <form id="formLogin">
+                <div class="form-group">
+                    <label for="inputClave">Contraseña de Administrador</label>
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" id="inputClave" placeholder="Ingresa la clave..." required autofocus>
+                    </div>
+                </div>
+                <button type="submit" id="btnEntrar" class="btn-login-submit">
+                    <i class="fa-solid fa-unlock-keyhole"></i> Iniciar Sesión
+                </button>
+            </form>
+            <div class="login-hint">
+                <small>Clave predeterminada: <strong>1234</strong> (Configurable en config.py)</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENIDO DEL DASHBOARD (Visible si autenticado) -->
+    <main id="pantallaDashboard" class="admin-container" style="display: none;">
+        
+        <!-- TARJETAS DE MÉTRICAS -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon icon-total"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-value" id="kpiTotal">0</span>
+                    <span class="kpi-label">Total de Reservas</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-mes"><i class="fa-solid fa-heart"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-value" id="kpiMes">0</span>
+                    <span class="kpi-label">Reservas Este Mes</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-futuras"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-value" id="kpiFuturas">0</span>
+                    <span class="kpi-label">Pedidas Próximas</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-proxima">
+                <div class="kpi-icon icon-proxima"><i class="fa-solid fa-ring"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-value kpi-small" id="kpiProximaTexto">Ninguna pendiente</span>
+                    <span class="kpi-label">Siguiente Pedida</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- BARRA DE HERRAMIENTAS Y ACCIONES -->
+        <section class="toolbar-card">
+            <div class="toolbar-left">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="inputBuscar" placeholder="Buscar por pareja, teléfono o fecha...">
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <button id="btnNuevaReservaManual" class="btn-action-primary">
+                    <i class="fa-solid fa-plus"></i> Nueva Reserva Manual
+                </button>
+                <button id="btnRecargar" class="btn-action-secondary" title="Recargar tabla">
+                    <i class="fa-solid fa-rotate-right"></i> Actualizar
+                </button>
+            </div>
+        </section>
+
+        <!-- TABLA DE RESERVAS -->
+        <section class="table-card">
+            <div class="table-header">
+                <h3>Listado de Pedidas Reservadas</h3>
+                <span class="table-count" id="contadorReservas">0 reservas</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Pareja / Novios</th>
+                            <th>Contacto WhatsApp</th>
+                            <th>Horario</th>
+                            <th>Estilo de Pedida</th>
+                            <th>Observaciones</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyReservas">
+                        <!-- Se llena con JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="sinResultados" class="empty-state" style="display: none;">
+                <div class="empty-icon">📂</div>
+                <h4>No hay reservas que coincidan con la búsqueda</h4>
+                <p>Las fechas aparecerán aquí en cuanto las parejas reserven desde el sitio web.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE NUEVA RESERVA MANUAL -->
+    <div id="modalManual" class="modal-overlay">
+        <div class="modal-card">
+            <button id="btnCerrarManual" class="modal-close">&times;</button>
+            <div class="modal-header">
+                <h3>➕ Registrar Pedida Manualmente</h3>
+                <p>Útil cuando un cliente te contacta por teléfono o WhatsApp directo</p>
+            </div>
+            <form id="formManual" class="modal-form">
+                <div class="form-group">
+                    <label>Fecha del Evento *</label>
+                    <input type="date" id="manualFecha" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre de la Pareja / Cliente *</label>
+                    <input type="text" id="manualNombre" placeholder="Ej: Fernando & Camila" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Teléfono / WhatsApp *</label>
+                        <input type="tel" id="manualTelefono" placeholder="Ej: +591 70000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Horario *</label>
+                        <input type="text" id="manualHora" placeholder="Ej: 19:30 Sunset" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estilo / Paquete de Pedida</label>
+                    <input type="text" id="manualTipo" placeholder="Ej: Cena con Letras Gigantes" value="Cena Romántica a la Luz de las Velas">
+                </div>
+                <div class="form-group">
+                    <label>Observaciones</label>
+                    <textarea id="manualObservaciones" rows="3" placeholder="Detalles, cómplices, canciones..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="btnCancelarManual" class="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn-submit">Guardar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMACIÓN LIBERAR FECHA -->
+    <div id="modalConfirmarLiberar" class="modal-overlay">
+        <div class="modal-card modal-card-sm">
+            <div class="warning-icon">⚠️</div>
+            <h3>¿Liberar esta Fecha?</h3>
+            <p>Se eliminará la reserva del día <strong id="textoFechaLiberar">AAAA-MM-DD</strong> y quedará nuevamente DISPONIBLE en la página web pública.</p>
+            <div class="modal-actions">
+                <button type="button" id="btnCancelarLiberar" class="btn-cancel">Cancelar</button>
+                <button type="button" id="btnConfirmarLiberarAccion" class="btn-danger">
+                    <i class="fa-solid fa-trash-can"></i> Sí, Liberar Fecha
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOASTS -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Admin JS -->
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>
